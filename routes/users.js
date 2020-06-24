@@ -22,17 +22,21 @@ router.post("/", (req, res) => {
   var role="adhérent"
   var etat=0
 
-  
-  users.push({id,nom,prénom,nomutilisateur,motdepasse,role,etat})
-  var json = JSON.stringify(users);
+  const User = users.filter(user => user.nomutilisateur === nomutilisateur)
+  if(User.length>0){
+    res.send("error")
+  }
+  else {
+    users.push({id,nom,prénom,nomutilisateur,motdepasse,role,etat})
+    var json = JSON.stringify(users);
 
-    fs.writeFile('users.json', json, function(err) {
-      if (err)
-          throw err;
-      console.log('Done!')
-      res.json(req.body)
-  });
-    
+      fs.writeFile('users.json', json, function(err) {
+        if (err)
+            throw err;
+        console.log('Done!')
+        res.json(req.body)
+    });
+  }
   
 });
 
